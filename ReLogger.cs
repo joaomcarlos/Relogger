@@ -1,13 +1,13 @@
 ﻿using System;
+using System.Drawing;
 using System.Threading;
 using System.Windows.Forms;
 using Styx;
 using Styx.Helpers;
+using Styx.Logic.BehaviorTree;
 using Styx.Plugins;
 using Styx.Plugins.PluginClass;
 using Styx.WoWInternals;
-using Styx.Logic.BehaviorTree;
-using System.Drawing;
 
 namespace Relogger
 {
