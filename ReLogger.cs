@@ -182,7 +182,7 @@ namespace Relogger
             bool b = Lua.GetReturnVal<bool>
                         ("local b = false " +
                         "for i = 1, GetNumGameAccounts() do " +
-                            "if string.lower(GetGameAccountInfo(i)) == string.lower(\"" + settings.Account + "\") then " +
+                            "if string.lower(GetGameAccountInfo(i)) == string.lower(\"" + settings.Account + "\") or i == " + settings.Account + " then " +
                                 "WoWAccountSelect_SelectAccount(i) " +
                                 "b = 1 " +
                                 "break " +
@@ -194,11 +194,12 @@ namespace Relogger
 
         private bool DoRealmSelect()
         {
+            string[] s = settings.Realm.Split(',');
             bool b = Lua.GetReturnVal<bool>
                         ("local b = false " + 
                          "for i = 1, select('#',GetRealmCategories()) do " +
                             "for j = 1, GetNumRealms(i) do " +
-                                "if string.lower(GetRealmInfo(i, j)) == string.lower(\"" + settings.Realm + "\") then " +
+                            "if string.lower(GetRealmInfo(i, j)) == string.lower(\"" + settings.Realm + "\") or (j == " + (s.Length > 0 ? s[0] : "-1") + " and i == " + (s.Length > 1 ? s[1] : "-1") + ") then " +
                                     "RealmList:Hide() " +
                                     "ChangeRealm(i, j) " +
                                     "b = 1 " +
@@ -213,11 +214,11 @@ namespace Relogger
         private bool DoCharacterSelect()
         {
             bool b = Lua.GetReturnVal<bool>
-                       ("local b = false " + 
-                        "if string.lower(GetServerName()) == string.lower(\"" + settings.Realm + "\") then " +
+                       ("local b = false " +
+                        "if string.lower(GetServerName()) == string.lower(\"" + settings.Realm + "\") or tonumber(\"" + settings.Realm + "\") ~= nil then " +
                             "if GetNumCharacters() > 0 then " +
                                 "for i = 1,GetNumCharacters() do " +
-                                    "if string.lower(GetCharacterInfo(i)) == string.lower(\"" + settings.Character + "\") then " +
+                                    "if string.lower(GetCharacterInfo(i)) == string.lower(\"" + settings.Character + "\") or i == " + settings.Character + " then " +
                                         "CharacterSelect_SelectCharacter(i) " +
                                         "EnterWorld() " +
                                         "b = 1 " +
